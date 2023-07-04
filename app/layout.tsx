@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./globals.css";
 import { Assistant } from "next/font/google";
 import {
@@ -27,6 +27,7 @@ export default function RootLayout({
 }) {
   const [cartItems, setCartItems] = useState<IProductsToAdd[]>([]);
   const [total, setTotal] = useState<ICartTotal | null>(null);
+  const [searchText, setSearchText] = useState<string | null>(null);
 
   const cartItemsState = useMemo(
     () => ({
@@ -42,13 +43,33 @@ export default function RootLayout({
     }),
     [total]
   );
+  const searchTextState = useMemo(
+    () => ({
+      searchText,
+      setSearchText,
+    }),
+    [searchText]
+  );
+
+  useEffect(() => {
+    if (localStorage.getItem("cartItems")) {
+      const previousItemsInCart = JSON.parse(
+        localStorage.getItem("cartItems") as string
+      );
+      setCartItems(previousItemsInCart);
+    } else {
+      setCartItems([]);
+    }
+  }, []);
 
   return (
     <html lang="en">
       <body className={assistant.className}>
         <CartContext.Provider value={cartItemsState}>
           <CartTotalContext.Provider value={cartItemsTotalState}>
-            {children}
+            <SearchTextContext.Provider value={searchTextState}>
+              {children}
+            </SearchTextContext.Provider>
           </CartTotalContext.Provider>
         </CartContext.Provider>
       </body>
