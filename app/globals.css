@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -10,9 +10,18 @@ body {
   height: 100%;
 }
 
-.btn-add-remove{
+.btn-add-remove {
   @apply w-full bg-gradient-to-b from-yellow-300 to-yellow-500 px-6 py-2 active:from-yellow-500 active:to-yellow-300 font-medium transition-colors rounded;
 }
-.btn-cart-sign-in{
+.btn-cart-sign-in {
   @apply w-full mt-5 bg-gradient-to-b from-gray-300 to-gray-500 p-2 active:from-yellow-500 active:to-yellow-300 font-medium transition-colors rounded text-white;
+}
+
+.expanded-view {
+  display: none;
+  transition: display .1s ease-in-out;
+}
+
+.product-card:hover > .expanded-view {
+  display: inline;
 }
