@@ -2,9 +2,10 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import ProductsListing from "@/components/ProductsListing";
+import { CartContext } from "@/core/context";
 import { IProducts } from "@/shared/model/products.model";
 import { productServices } from "@/shared/services/product.service";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -48,7 +49,9 @@ function Main() {
         <div className="w-full max-w-[90rem] mx-auto pb-10">
           {/* Start Carousal */}
           <div className="relative">
-            <div className="absolute left-0 right-0 h-10 sm:h-40 md:h-52 bg-gradient-to-b from-transparent to-gray-100 bottom-0 z-10" />
+            {products && (
+              <div className="absolute left-0 right-0 h-10 sm:h-40 md:h-52 bg-gradient-to-b from-transparent to-gray-100 bottom-0 z-10" />
+            )}
             <Carousel
               autoPlay
               infiniteLoop

@@ -3,7 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { IProducts, IProductsToAdd } from "@/shared/model/products.model";
 import Image from "next/image";
-import { CartContext } from "@/core/context";
+import { CartContext, CartTotalContext } from "@/core/context";
+import { cartTotalQuantities } from "@/shared/utils/cartTotalQuantities";
+import { cartSubTotal } from "@/shared/utils/cartSubTotal";
+import {v4 as uuidV4} from "uuid";
 
 interface IProps {
   products: IProducts[] | null;
@@ -11,6 +14,7 @@ interface IProps {
 
 function ProductsListing({ products }: IProps) {
   const { cartItems, setCartItems } = useContext(CartContext);
+  const { setTotal } = useContext(CartTotalContext);
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
 
   const addToCart = (item: IProducts) => {
@@ -19,7 +23,7 @@ function ProductsListing({ products }: IProps) {
       title: item.title,
       category: item.category,
       description: item.description,
-      orderId: "abc123",
+      orderId: uuidV4(),
       image: item.image,
       price: item.price,
       quantity: 1,
@@ -42,11 +46,16 @@ function ProductsListing({ products }: IProps) {
   };
 
   useEffect(() => {
+    const copyCart = [...cartItems];
     if (initialLoad) {
       setInitialLoad(false);
       return;
     }
-    console.log(cartItems);
+    localStorage.setItem("cartItems", JSON.stringify(copyCart));
+    setTotal({
+      totalQuantities: cartTotalQuantities(copyCart),
+      subTotal: cartSubTotal(copyCart),
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems]);
   return (
