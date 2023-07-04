@@ -12,6 +12,7 @@ import {
   CartTotalContext,
   SearchTextContext,
 } from "@/core/context";
+import "@smastrom/react-rating/style.css";
 
 const assistant = Assistant({ subsets: ["latin"] });
 

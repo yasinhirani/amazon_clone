@@ -4,8 +4,7 @@ import SearchProductCard from "@/components/SearchProductCard";
 import { ISearchResults } from "@/shared/model/products.model";
 import { productServices } from "@/shared/services/product.service";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import "@smastrom/react-rating/style.css";
+import React, { useEffect, useRef, useState } from "react";
 
 function Search() {
   const searchParams = useSearchParams();
@@ -14,6 +13,8 @@ function Search() {
   const [searchResult, setSearchResult] = useState<ISearchResults[] | null>(
     null
   );
+
+  const mainDivRef = useRef<HTMLDivElement>(null);
 
   const getSearchResults = () => {
     setSearchResult(null);
@@ -34,7 +35,7 @@ function Search() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col" ref={mainDivRef}>
       <Navbar />
       <div className="bg-gray-100 flex-grow">
         <div className="w-full max-w-[90rem] mx-auto px-6 md:px-12 py-6">
@@ -49,6 +50,7 @@ function Search() {
                     key={Math.random()}
                     searchProduct={result}
                     addToCart={addToCart}
+                    scrollHideRef={mainDivRef.current}
                   />
                 );
               })}
