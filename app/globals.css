@@ -1,27 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
+html,
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  width: 100%;
+  height: 100%;
+}
+
+.btn-add-remove {
+  @apply w-full bg-gradient-to-b from-yellow-300 to-yellow-500 px-6 py-2 active:from-yellow-500 active:to-yellow-300 font-medium transition-colors rounded;
+}
+.btn-cart-sign-in {
+  @apply w-full mt-5 bg-gradient-to-b from-gray-300 to-gray-500 p-2 active:from-gray-500 active:to-gray-300 font-medium transition-colors rounded text-white;
+}
+
+.expanded-view {
+  display: none;
+  transition: display .1s ease-in-out;
+}
+
+.product-card:hover > .expanded-view {
+  display: inline;
+}
+
+.divider::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  top: 11px;
+  z-index: 1;
+  @apply bg-gray-300;
+}
+
+/* loader */
+.loader {
+  border: 8px solid; /* Light grey */
+  border-top: 8px solid; /* Blue */
+  @apply border-gray-300 border-t-gray-700;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
