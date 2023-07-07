@@ -75,10 +75,13 @@ function Cart() {
       const stripe = await stripePromise;
 
       const checkoutSession = await axios
-        .post("http://localhost:8080/api/create-checkout-session", {
-          products: cartItems,
-          email: "yasin@gmail.com",
-        })
+        .post(
+          "https://amazon-clone-backend-one.vercel.app/api/create-checkout-session",
+          {
+            products: cartItems,
+            email: "yasin@gmail.com",
+          }
+        )
         .then((res) => res.data);
 
       await productServices.addOrders(orderObj).then(async (res) => {
