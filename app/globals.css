@@ -14,7 +14,7 @@ body {
   @apply w-full bg-gradient-to-b from-yellow-300 to-yellow-500 px-6 py-2 active:from-yellow-500 active:to-yellow-300 font-medium transition-colors rounded;
 }
 .btn-cart-sign-in {
-  @apply w-full mt-5 bg-gradient-to-b from-gray-300 to-gray-500 p-2 active:from-yellow-500 active:to-yellow-300 font-medium transition-colors rounded text-white;
+  @apply w-full mt-5 bg-gradient-to-b from-gray-300 to-gray-500 p-2 active:from-gray-500 active:to-gray-300 font-medium transition-colors rounded text-white;
 }
 
 .expanded-view {
@@ -24,4 +24,15 @@ body {
 
 .product-card:hover > .expanded-view {
   display: inline;
+}
+
+.divider::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  top: 11px;
+  z-index: 1;
+  @apply bg-gray-300;
 }

@@ -8,11 +8,16 @@ import {
   IProductsToAdd,
 } from "@/shared/model/products.model";
 import {
+  AuthDataContext,
   CartContext,
   CartTotalContext,
   SearchTextContext,
 } from "@/core/context";
 import "@smastrom/react-rating/style.css";
+import Navbar from "@/components/Navbar";
+import { usePathname } from "next/navigation";
+import { IAuthData } from "@/core/model/auth.model";
+import { Toaster } from "react-hot-toast";
 
 const assistant = Assistant({ subsets: ["latin"] });
 
@@ -26,9 +31,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   const [cartItems, setCartItems] = useState<IProductsToAdd[]>([]);
   const [total, setTotal] = useState<ICartTotal | null>(null);
   const [searchText, setSearchText] = useState<string | null>(null);
+  const [authData, setAuthData] = useState<IAuthData | null>(null);
 
   const cartItemsState = useMemo(
     () => ({
@@ -51,6 +59,13 @@ export default function RootLayout({
     }),
     [searchText]
   );
+  const AuthDataState = useMemo(
+    () => ({
+      authData,
+      setAuthData,
+    }),
+    [authData]
+  );
 
   useEffect(() => {
     if (localStorage.getItem("cartItems")) {
@@ -61,6 +76,12 @@ export default function RootLayout({
     } else {
       setCartItems([]);
     }
+    if (localStorage.getItem("authData")) {
+      const authValues = JSON.parse(localStorage.getItem("authData") as string);
+      setAuthData(authValues);
+    } else {
+      setAuthData(null);
+    }
   }, []);
 
   return (
@@ -69,7 +90,16 @@ export default function RootLayout({
         <CartContext.Provider value={cartItemsState}>
           <CartTotalContext.Provider value={cartItemsTotalState}>
             <SearchTextContext.Provider value={searchTextState}>
-              {children}
+              <AuthDataContext.Provider value={AuthDataState}>
+                <div className="w-full h-full flex flex-col">
+                  {!(
+                    pathname.includes("/login") ||
+                    pathname.includes("/register")
+                  ) && <Navbar />}
+                  {children}
+                </div>
+                <Toaster />
+              </AuthDataContext.Provider>
             </SearchTextContext.Provider>
           </CartTotalContext.Provider>
         </CartContext.Provider>

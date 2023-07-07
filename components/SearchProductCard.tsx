@@ -3,19 +3,13 @@ import Image from "next/image";
 import { Rating } from "@smastrom/react-rating";
 import ExpandedProductView from "./ExpandedProductView";
 import { useState } from "react";
-import { EyeIcon } from "@heroicons/react/24/outline";
 
 interface IProps {
   searchProduct: ISearchResults;
-  addToCart: (item: ISearchResults) => void;
   scrollHideRef: HTMLDivElement | null;
 }
 
-function SearchProductCard({
-  searchProduct,
-  addToCart,
-  scrollHideRef,
-}: IProps) {
+function SearchProductCard({ searchProduct, scrollHideRef }: IProps) {
   const {
     image,
     name,
@@ -25,23 +19,16 @@ function SearchProductCard({
     is_best_seller,
     stars,
     total_reviews,
+    id,
   } = searchProduct;
   const [isExpandedViewOpen, setIsExpandedViewOpen] = useState<boolean>(false);
   return (
     <>
-      <div className="bg-white rounded p-4 flex flex-col relative overflow-hidden product-card">
-        <button
-          type="button"
-          className="expanded-view absolute top-3 right-3"
-          onClick={() => {
-            setIsExpandedViewOpen(true);
-            if (scrollHideRef) {
-              scrollHideRef.classList.add("overflow-hidden");
-            }
-          }}
-        >
-          <EyeIcon className="w-5 h-5" />
-        </button>
+      <div
+        role="button"
+        className="bg-white rounded p-4 flex flex-col relative overflow-hidden product-card"
+        onClick={() => setIsExpandedViewOpen(true)}
+      >
         {is_amazon_choice && (
           <p className="absolute top-0 left-0 bg-[#002f36] px-3 py-1 text-white font-semibold text-sm">
             Amazon&apos;s <span className="text-yellow-600">Choice</span>
@@ -118,6 +105,7 @@ function SearchProductCard({
           is_best_seller={is_best_seller}
           rating={stars}
           total_reviews={total_reviews}
+          position={id}
           setIsExpandedViewOpen={setIsExpandedViewOpen}
         />
       )}
