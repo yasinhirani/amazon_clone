@@ -57,6 +57,7 @@ function Main() {
             showThumbs={false}
             showStatus={false}
             interval={5000}
+            dynamicHeight
             // onChange={(e) => console.log(e)}
           >
             <figure>

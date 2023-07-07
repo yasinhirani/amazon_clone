@@ -1,7 +1,8 @@
 "use client";
 import Navbar from "@/components/Navbar";
-import { CartContext, CartTotalContext } from "@/core/context";
-import { IProductsToAdd } from "@/shared/model/products.model";
+import { AuthDataContext, CartContext, CartTotalContext } from "@/core/context";
+import { IOrdersReq, IProductsToAdd } from "@/shared/model/products.model";
+import { productServices } from "@/shared/services/product.service";
 import { cartSubTotal } from "@/shared/utils/cartSubTotal";
 import { cartTotalQuantities } from "@/shared/utils/cartTotalQuantities";
 import { loadStripe } from "@stripe/stripe-js";
@@ -9,6 +10,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const stripePromise = loadStripe(
   process.env.stripe_publishable_key ? process.env.stripe_publishable_key : ""
@@ -16,11 +18,13 @@ const stripePromise = loadStripe(
 
 function Cart() {
   const { cartItems, setCartItems } = useContext(CartContext);
+  const { authData } = useContext(AuthDataContext);
   const { total, setTotal } = useContext(CartTotalContext);
 
   const router = useRouter();
 
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
+  const [disableState, setDisableState] = useState<boolean>(false);
 
   const addToCart = (item: IProductsToAdd) => {
     const copyCart = [...cartItems];
@@ -51,21 +55,48 @@ function Cart() {
   };
 
   const handleCheckout = async () => {
-    const stripe = await stripePromise;
-
-    const checkoutSession = await axios
-      .post("http://localhost:8080/api/create-checkout-session", {
-        products: cartItems,
-        email: "yasin@gmail.com",
-      })
-      .then((res) => res.data);
-
-    const result = await stripe?.redirectToCheckout({
-      sessionId: checkoutSession.id,
+    setDisableState(true);
+    const copyCart = [...cartItems];
+    const updatedItemsForOrder = copyCart.map((item) => {
+      return {
+        title: item.title,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+        orderId: item.orderId,
+        orderedOn: new Date(),
+      };
     });
+    if (authData) {
+      const orderObj: IOrdersReq = {
+        userEmail: authData?.userEmail,
+        items: updatedItemsForOrder,
+      };
+      const stripe = await stripePromise;
 
-    if (result?.error) {
-      alert(result.error.message);
+      const checkoutSession = await axios
+        .post("http://localhost:8080/api/create-checkout-session", {
+          products: cartItems,
+          email: "yasin@gmail.com",
+        })
+        .then((res) => res.data);
+
+      await productServices.addOrders(orderObj).then(async (res) => {
+        if (res.data.success) {
+          const result = await stripe?.redirectToCheckout({
+            sessionId: checkoutSession.id,
+          });
+          if (result?.error) {
+            alert(result.error.message);
+          }
+          setDisableState(false);
+        } else {
+          toast.error(res.data.message);
+        }
+      }).catch(() => {
+        setDisableState(false);
+        toast.error("Something went wrong.");
+      });
     }
   };
 
@@ -182,10 +213,13 @@ function Cart() {
             )}
             <button
               type="button"
-              className="btn-add-remove mt-4"
+              disabled={disableState}
+              className="btn-add-remove mt-4 disabled:opacity-75"
               onClick={() => handleCheckout()}
             >
-              Proceed to checkout
+              {disableState
+                ? "Procession your order, please wait"
+                : "Proceed to checkout"}
             </button>
           </section>
         )}

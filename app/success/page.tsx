@@ -30,7 +30,7 @@ function Success() {
           </p>
           <button
             type="button"
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/myOrders")}
             className="btn-add-remove mt-5"
           >
             Go to my orders

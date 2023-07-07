@@ -1,3 +1,5 @@
+import { IBase } from "@/core/model/auth.model";
+
 export interface IProducts {
   id: number;
   title: string;
@@ -51,3 +53,20 @@ export interface ISearchResults {
   price_symbol: string;
   price: number;
 }
+
+export interface IOrders {
+  title: string;
+  image: string;
+  quantity: number;
+  price: number;
+  orderId: string;
+  orderedOn: Date;
+}
+export interface IOrdersReq {
+  userEmail: string;
+  items: IOrders[]
+}
+export interface IOrdersRes
+  extends IBase<{ success: boolean; message: string }> {}
+export interface IUserOrdersRes
+  extends IBase<{ success: boolean; message: string; orders: IOrders[] }> {}
