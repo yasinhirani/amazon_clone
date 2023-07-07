@@ -43,42 +43,39 @@ function Main() {
     getProducts();
   }, []);
   return (
-    <div className="w-full h-full flex flex-col">
-      <Navbar />
-      <div className="bg-gray-100 flex-grow">
-        <div className="w-full max-w-[90rem] mx-auto pb-10">
-          {/* Start Carousal */}
-          <div className="relative">
-            {products && (
-              <div className="absolute left-0 right-0 h-10 sm:h-40 md:h-52 bg-gradient-to-b from-transparent to-gray-100 bottom-0 z-10" />
-            )}
-            <Carousel
-              autoPlay
-              infiniteLoop
-              showIndicators={false}
-              showThumbs={false}
-              showStatus={false}
-              interval={5000}
-              // onChange={(e) => console.log(e)}
-            >
-              <figure>
-                <img src="https://links.papareact.com/gi1" alt="" />
-              </figure>
-              <figure>
-                <img src="https://links.papareact.com/6ff" alt="" />
-              </figure>
-              <figure>
-                <img src="https://links.papareact.com/7ma" alt="" />
-              </figure>
-            </Carousel>
-          </div>
-          {/* End Carousal */}
-          {/* Start Products */}
-          <div className="md:-mt-24 lg:-mt-52 relative z-20 px-6">
-            <ProductsListing products={products} />
-          </div>
-          {/* End Products */}
+    <div className="bg-gray-100 flex-grow">
+      <div className="w-full max-w-[90rem] mx-auto pb-10">
+        {/* Start Carousal */}
+        <div className="relative">
+          {products && (
+            <div className="absolute left-0 right-0 h-10 sm:h-40 md:h-52 bg-gradient-to-b from-transparent to-gray-100 bottom-0 z-10" />
+          )}
+          <Carousel
+            autoPlay
+            infiniteLoop
+            showIndicators={false}
+            showThumbs={false}
+            showStatus={false}
+            interval={5000}
+            // onChange={(e) => console.log(e)}
+          >
+            <figure>
+              <img src="https://links.papareact.com/gi1" alt="" />
+            </figure>
+            <figure>
+              <img src="https://links.papareact.com/6ff" alt="" />
+            </figure>
+            <figure>
+              <img src="https://links.papareact.com/7ma" alt="" />
+            </figure>
+          </Carousel>
         </div>
+        {/* End Carousal */}
+        {/* Start Products */}
+        <div className="md:-mt-24 lg:-mt-52 relative z-20 px-6">
+          <ProductsListing products={products} />
+        </div>
+        {/* End Products */}
       </div>
     </div>
   );

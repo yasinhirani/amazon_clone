@@ -6,16 +6,23 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useContext, useState } from "react";
-import { CartTotalContext, SearchTextContext } from "@/core/context";
+import {
+  AuthDataContext,
+  CartTotalContext,
+  SearchTextContext,
+} from "@/core/context";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Popover, ArrowContainer } from "react-tiny-popover";
 
 function Navbar() {
   const { total } = useContext(CartTotalContext);
   const { searchText, setSearchText } = useContext(SearchTextContext);
+  const { authData, setAuthData } = useContext(AuthDataContext);
   const router = useRouter();
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   return (
-    <nav className="bg-navbar px-5 py-1 flex items-center space-x-8">
+    <nav className="bg-navbar px-5 py-1 flex items-center space-x-5 sm:space-x-8">
       {/* Start Logo */}
       <Link href="/">
         <div className="flex items-start border border-transparent hover:border-white cursor-pointer p-2 rounded-sm">
@@ -67,10 +74,53 @@ function Navbar() {
       {/* End search */}
       {/* Start profile */}
       <div className="whitespace-nowrap flex items-center md:space-x-8">
-        <div className="text-white hidden md:block cursor-pointer border border-transparent hover:border-white p-2 rounded-sm">
-          <p className="text-sm font-semibold leading-3">Hello, sign in</p>
-          <p className="font-bold text-base">Accounts & lists</p>
-        </div>
+        <Popover
+          isOpen={isPopoverOpen}
+          positions={["bottom"]}
+          align="center"
+          padding={0}
+          onClickOutside={() => setIsPopoverOpen(false)}
+          containerClassName="w-full min-w-[220px] max-w-[220px] z-10"
+          content={({ position, childRect, popoverRect }) => (
+            <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+              position={position}
+              childRect={childRect}
+              popoverRect={popoverRect}
+              arrowColor={"white"}
+              arrowSize={6}
+              className="popover-arrow-container"
+              arrowClassName="popover-arrow"
+            >
+              <div
+                className="bg-white p-3 rounded"
+                onClick={() => setIsPopoverOpen(!isPopoverOpen)}
+              >
+                <p className="font-medium text-center">Hello, {authData?.userName}</p>
+                <button type="button" onClick={() => {
+                  setAuthData(null);
+                  localStorage.removeItem("authData");
+                }} className="btn-add-remove mt-3">Sign out</button>
+              </div>
+            </ArrowContainer>
+          )}
+        >
+          <button
+            type="button"
+            onClick={() => {
+              if (!authData) {
+                router.push("/login");
+              } else {
+                setIsPopoverOpen(!isPopoverOpen);
+              }
+            }}
+            className="text-white hidden md:block cursor-pointer border border-transparent hover:border-white p-2 rounded-sm text-left"
+          >
+            <p className="text-sm font-semibold leading-3">
+              Hello, {authData ? authData.userName : "sign in"}
+            </p>
+            <p className="font-bold text-base">Accounts & lists</p>
+          </button>
+        </Popover>
         <div className="text-white hidden md:block border border-transparent hover:border-white cursor-pointer p-2 rounded-sm">
           <p className="text-sm font-semibold leading-3">Returns</p>
           <p className="font-bold text-base">& Orders</p>

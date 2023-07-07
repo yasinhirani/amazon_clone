@@ -2,8 +2,8 @@ export interface IProducts {
   id: number;
   title: string;
   price: number;
-  description: string;
-  category: string;
+  description?: string;
+  category?: string;
   image: string;
   rating?: IRating;
 }
@@ -34,6 +34,7 @@ export interface ISearch {
   setSearchText: React.Dispatch<React.SetStateAction<string | null>>;
 }
 export interface ISearchResults {
+  id: number;
   type: string;
   position: number;
   name: string;

@@ -1,10 +1,11 @@
-'use client';
+"use client";
 import {
   ICartItemsContext,
   ICartTotalContext,
   ISearch,
 } from "@/shared/model/products.model";
 import { createContext } from "react";
+import { IAuthDataContext } from "./model/auth.model";
 
 const CartContext = createContext<ICartItemsContext>({
   cartItems: [],
@@ -21,4 +22,9 @@ const SearchTextContext = createContext<ISearch>({
   setSearchText: () => {},
 });
 
-export { CartContext, CartTotalContext, SearchTextContext };
+const AuthDataContext = createContext<IAuthDataContext>({
+  authData: null,
+  setAuthData: () => {},
+});
+
+export { CartContext, CartTotalContext, SearchTextContext, AuthDataContext };
