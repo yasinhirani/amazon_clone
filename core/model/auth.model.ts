@@ -1,4 +1,4 @@
-interface IBase<T> {
+export interface IBase<T> {
   data: T;
 }
 export interface IAuthData {

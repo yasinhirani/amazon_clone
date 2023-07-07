@@ -1,10 +1,18 @@
 import axios from "axios";
-import { IProducts, ISearchResults } from "../model/products.model";
+import {
+  IOrdersReq,
+  IOrdersRes,
+  IProducts,
+  ISearchResults,
+  IUserOrdersRes,
+} from "../model/products.model";
 
 const getAllProducts = (): Promise<IProducts[]> => {
   return axios.get("https://fakestoreapi.com/products").then((res) => res.data);
 };
-const getSearchResults = (query: string): Promise<{results: ISearchResults[]}> => {
+const getSearchResults = (
+  query: string
+): Promise<{ results: ISearchResults[] }> => {
   return axios
     .get(`https://amazon-scraper-api11.p.rapidapi.com/search/${query}`, {
       params: {
@@ -17,8 +25,24 @@ const getSearchResults = (query: string): Promise<{results: ISearchResults[]}> =
     })
     .then((res) => res.data);
 };
+const addOrders = (values: IOrdersReq): Promise<IOrdersRes> => {
+  return axios.post(
+    "https://amazon-clone-backend-one.vercel.app/api/addOrders",
+    values
+  );
+};
+const getUserOrders = (values: {
+  userEmail: string;
+}): Promise<IUserOrdersRes> => {
+  return axios.post(
+    "https://amazon-clone-backend-one.vercel.app/api/getUserOrders",
+    values
+  );
+};
 const productServices = {
   getAllProducts,
   getSearchResults,
+  addOrders,
+  getUserOrders,
 };
 export { productServices };

@@ -31,8 +31,8 @@ function Search() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
   return (
-    <div className="bg-gray-100 flex-grow">
-      <div className="w-full max-w-[90rem] mx-auto px-6 md:px-12 py-6">
+    <div className="bg-gray-100 flex-grow flex flex-col">
+      <div className="w-full max-w-[90rem] mx-auto px-6 md:px-12 py-6 flex flex-col flex-grow">
         <h4 className="font-bold text-xl">Search results for: {searchQuery}</h4>
         <div className="grid grid-flow-row-dense grid-cols-1 gap-6 mt-6">
           {searchResult &&
@@ -46,6 +46,14 @@ function Search() {
               );
             })}
         </div>
+        {!searchResult && (
+          <div className="flex-grow flex flex-col justify-center items-center space-y-6">
+            <div className="loader" />
+            <p className="font-semibold text-lg w-[30ch] text-center">
+              Please wait while we get best items for you
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

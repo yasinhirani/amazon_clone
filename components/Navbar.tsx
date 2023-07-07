@@ -121,10 +121,10 @@ function Navbar() {
             <p className="font-bold text-base">Accounts & lists</p>
           </button>
         </Popover>
-        <div className="text-white hidden md:block border border-transparent hover:border-white cursor-pointer p-2 rounded-sm">
+        <Link href="/myOrders" className="text-white hidden md:block border border-transparent hover:border-white cursor-pointer p-2 rounded-sm">
           <p className="text-sm font-semibold leading-3">Returns</p>
           <p className="font-bold text-base">& Orders</p>
-        </div>
+        </Link>
         <Link
           href="/cart"
           className="text-white flex items-end space-x-1 border border-transparent hover:border-white cursor-pointer p-2 rounded-sm"

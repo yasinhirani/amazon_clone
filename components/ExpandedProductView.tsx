@@ -84,10 +84,10 @@ function ExpandedProductView({
     <div
       role="button"
       onClick={() => setIsExpandedViewOpen(false)}
-      className="fixed inset-0 bg-black bg-opacity-60 z-30 flex justify-center items-center cursor-default"
+      className="fixed inset-0 bg-black bg-opacity-60 z-30 flex justify-center items-center cursor-default p-6"
     >
       <div
-        className="bg-white p-4 rounded w-[500px] flex flex-col items-center relative overflow-hidden"
+        className="bg-white p-4 rounded w-full sm:w-[500px] flex flex-col items-center relative overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {is_amazon_choice && (
