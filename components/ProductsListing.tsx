@@ -77,7 +77,7 @@ function ProductsListing({ products }: IProps) {
             alt=""
             width={1000}
             height={1000}
-            className="w-full"
+            className="w-full h-40 object-cover object-center sm:h-44 md:h-full"
           />
         </figure>
       )}
