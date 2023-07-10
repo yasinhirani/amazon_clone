@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import Navbar from "@/components/Navbar";
 import ProductsListing from "@/components/ProductsListing";
-import { CartContext } from "@/core/context";
 import { IProducts } from "@/shared/model/products.model";
 import { productServices } from "@/shared/services/product.service";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -57,23 +55,22 @@ function Main() {
             showThumbs={false}
             showStatus={false}
             interval={5000}
-            dynamicHeight
             // onChange={(e) => console.log(e)}
           >
             <figure>
-              <img src="https://links.papareact.com/gi1" alt="" />
+              <img className="h-[290px] object-cover object-center sm:h-full" src="https://links.papareact.com/gi1" alt="" />
             </figure>
             <figure>
-              <img src="https://links.papareact.com/6ff" alt="" />
+              <img className="h-[290px] object-cover object-center sm:h-full" src="https://links.papareact.com/6ff" alt="" />
             </figure>
             <figure>
-              <img src="https://links.papareact.com/7ma" alt="" />
+              <img className="h-[290px] object-cover object-center sm:h-full" src="https://links.papareact.com/7ma" alt="" />
             </figure>
           </Carousel>
         </div>
         {/* End Carousal */}
         {/* Start Products */}
-        <div className="md:-mt-24 lg:-mt-52 relative z-20 px-6">
+        <div className="-mt-20 lg:-mt-52 relative z-20 px-6">
           <ProductsListing products={products} />
         </div>
         {/* End Products */}
