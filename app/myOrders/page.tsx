@@ -79,7 +79,7 @@ function MyOrders() {
               alt=""
               width={1020}
               height={250}
-              className="w-full"
+              className="w-full h-40 object-cover object-center sm:h-44 md:h-full"
             />
           </figure>
           {orders && orders.length === 0 && (

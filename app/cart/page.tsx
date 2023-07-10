@@ -84,22 +84,25 @@ function Cart() {
         )
         .then((res) => res.data);
 
-      await productServices.addOrders(orderObj).then(async (res) => {
-        if (res.data.success) {
-          const result = await stripe?.redirectToCheckout({
-            sessionId: checkoutSession.id,
-          });
-          if (result?.error) {
-            alert(result.error.message);
+      await productServices
+        .addOrders(orderObj)
+        .then(async (res) => {
+          if (res.data.success) {
+            const result = await stripe?.redirectToCheckout({
+              sessionId: checkoutSession.id,
+            });
+            if (result?.error) {
+              alert(result.error.message);
+            }
+            setDisableState(false);
+          } else {
+            toast.error(res.data.message);
           }
+        })
+        .catch(() => {
           setDisableState(false);
-        } else {
-          toast.error(res.data.message);
-        }
-      }).catch(() => {
-        setDisableState(false);
-        toast.error("Something went wrong.");
-      });
+          toast.error("Something went wrong.");
+        });
     }
   };
 
@@ -126,7 +129,7 @@ function Cart() {
               alt=""
               width={1020}
               height={250}
-              className="w-full"
+              className="w-full h-40 object-cover object-center sm:h-44 md:h-full"
             />
           </figure>
           {cartItems.length === 0 && (
@@ -205,7 +208,18 @@ function Cart() {
               Subtotal ({total?.totalQuantities || 0} Items): ₹
               {total?.subTotal || 0}
             </h4>
-            {false && (
+            {authData ? (
+              <button
+                type="button"
+                disabled={disableState}
+                className="btn-add-remove mt-4 disabled:opacity-75"
+                onClick={() => handleCheckout()}
+              >
+                {disableState
+                  ? "Procession your order, please wait"
+                  : "Proceed to checkout"}
+              </button>
+            ) : (
               <button
                 type="button"
                 className="btn-cart-sign-in"
@@ -214,16 +228,6 @@ function Cart() {
                 Sign in to checkout
               </button>
             )}
-            <button
-              type="button"
-              disabled={disableState}
-              className="btn-add-remove mt-4 disabled:opacity-75"
-              onClick={() => handleCheckout()}
-            >
-              {disableState
-                ? "Procession your order, please wait"
-                : "Proceed to checkout"}
-            </button>
           </section>
         )}
       </div>
