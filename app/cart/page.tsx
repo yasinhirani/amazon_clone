@@ -35,6 +35,7 @@ function Cart() {
     copyCart[existingIndex].total =
       copyCart[existingIndex].price * copyCart[existingIndex].quantity;
     setCartItems(copyCart);
+    toast.success("Added to cart");
   };
 
   const removeFromCart = (item: IProductsToAdd) => {
@@ -52,6 +53,7 @@ function Cart() {
       copyCart.splice(itemToRemoveIndex, 1);
       setCartItems(copyCart);
     }
+    toast.success("Removed from cart");
   };
 
   const handleCheckout = async () => {
@@ -75,34 +77,25 @@ function Cart() {
       const stripe = await stripePromise;
 
       const checkoutSession = await axios
-        .post(
-          "https://amazon-clone-backend-one.vercel.app/api/create-checkout-session",
-          {
-            products: cartItems,
-            email: "yasin@gmail.com",
-          }
-        )
+        .post("/api/create-checkout-session", {
+          products: cartItems,
+          email: authData.userEmail,
+        })
         .then((res) => res.data);
 
-      await productServices
-        .addOrders(orderObj)
-        .then(async (res) => {
-          if (res.data.success) {
-            const result = await stripe?.redirectToCheckout({
-              sessionId: checkoutSession.id,
-            });
-            if (result?.error) {
-              alert(result.error.message);
-            }
-            setDisableState(false);
-          } else {
-            toast.error(res.data.message);
+      await productServices.addOrders(orderObj).then(async (res) => {
+        if (res.data.success) {
+          const result = await stripe?.redirectToCheckout({
+            sessionId: checkoutSession.id,
+          });
+          if (result?.error) {
+            alert(result.error.message);
           }
-        })
-        .catch(() => {
           setDisableState(false);
-          toast.error("Something went wrong.");
-        });
+        } else {
+          toast.error(res.data.message);
+        }
+      });
     }
   };
 
