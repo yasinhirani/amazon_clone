@@ -5,6 +5,7 @@ import { cartTotalQuantities } from "@/shared/utils/cartTotalQuantities";
 import { Rating } from "@smastrom/react-rating";
 import Image from "next/image";
 import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 import { v4 as uuidV4 } from "uuid";
 
 interface IProps {
@@ -79,6 +80,7 @@ function ExpandedProductView({
       totalQuantities: cartTotalQuantities(copyCart),
       subTotal: cartSubTotal(copyCart),
     });
+    toast.success("Added to cart");
   };
   return (
     <div

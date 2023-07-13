@@ -6,6 +6,8 @@ const nextConfig = {
   },
   env: {
     stripe_publishable_key: process.env.STRIPE_PUBLISHABLE_KEY,
+    stripe_secret_key: process.env.STRIPE_SECRET_KEY,
+    mongodb_connect_uri: process.env.MONGODB_CONNECT_URI,
   },
 };
 

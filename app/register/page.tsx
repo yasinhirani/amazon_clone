@@ -26,15 +26,20 @@ function Register() {
 
   const handleRegister = (values: IRegisterValues) => {
     setDisabledState(true);
-    authService.register(values).then((res) => {
-      if (res.data.success) {
-        toast.success(res.data.message);
-        router.push("/login");
-      } else {
-        toast.error(res.data.message);
+    authService
+      .register(values)
+      .then((res) => {
+        if (res.data.success) {
+          toast.success(res.data.message);
+          router.push("/login");
+        } else {
+          toast.error(res.data.message);
+          setDisabledState(false);
+        }
+      })
+      .catch(() => {
         setDisabledState(false);
-      }
-    });
+      });
   };
   return (
     <div className="flex-grow">
@@ -105,12 +110,12 @@ function Register() {
                       name="password"
                       disabled={disabledState}
                       className={`border ${
-                        errors && errors.password && touched
+                        errors && errors.password && touched.password
                           ? "border-red-600"
                           : "border-gray-400"
                       } px-2 py-1.5 w-full rounded outline-none font-semibold text-sm disabled:cursor-not-allowed`}
                     />
-                    {errors && errors.password && touched && (
+                    {errors && errors.password && touched.password && (
                       <small className="text-red-600 font-semibold">
                         {errors.password}
                       </small>

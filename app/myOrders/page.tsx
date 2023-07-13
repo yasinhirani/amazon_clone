@@ -43,9 +43,6 @@ function MyOrders() {
           } else {
             toast.error(res.data.message);
           }
-        })
-        .catch(() => {
-          toast.error("Something went wrong");
         });
     }
   };
