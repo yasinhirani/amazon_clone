@@ -18,6 +18,7 @@ import Navbar from "@/components/Navbar";
 import { usePathname } from "next/navigation";
 import { IAuthData } from "@/core/model/auth.model";
 import { Toaster } from "react-hot-toast";
+import Interceptor from "@/core/service/interceptor";
 
 const assistant = Assistant({ subsets: ["latin"] });
 
@@ -102,6 +103,7 @@ export default function RootLayout({
                   {children}
                 </div>
                 <Toaster />
+                <Interceptor />
               </AuthDataContext.Provider>
             </SearchTextContext.Provider>
           </CartTotalContext.Provider>

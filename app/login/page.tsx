@@ -34,6 +34,8 @@ function Login() {
         toast.error(res.data.message);
         setDisabledState(false);
       }
+    }).catch(() => {
+      setDisabledState(false);
     });
   };
   return (

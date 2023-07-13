@@ -5,10 +5,7 @@ const login = (values: {
   userEmail: string;
   password: string;
 }): Promise<ILoginRes> => {
-  return axios.post(
-    "https://amazon-clone-backend-one.vercel.app/api/login",
-    values
-  );
+  return axios.post("/api/login", values);
 };
 
 const register = (values: {
@@ -16,10 +13,7 @@ const register = (values: {
   userEmail: string;
   password: string;
 }): Promise<IRegisterRes> => {
-  return axios.post(
-    "https://amazon-clone-backend-one.vercel.app/api/register",
-    values
-  );
+  return axios.post("/api/register", values);
 };
 
 const authService = { login, register };

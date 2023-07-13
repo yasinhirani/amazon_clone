@@ -26,18 +26,12 @@ const getSearchResults = (
     .then((res) => res.data);
 };
 const addOrders = (values: IOrdersReq): Promise<IOrdersRes> => {
-  return axios.post(
-    "https://amazon-clone-backend-one.vercel.app/api/addOrders",
-    values
-  );
+  return axios.post("/api/addOrders", values);
 };
 const getUserOrders = (values: {
   userEmail: string;
 }): Promise<IUserOrdersRes> => {
-  return axios.post(
-    "https://amazon-clone-backend-one.vercel.app/api/getUserOrders",
-    values
-  );
+  return axios.post("/api/getOrders", values);
 };
 const productServices = {
   getAllProducts,

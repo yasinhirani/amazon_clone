@@ -7,6 +7,7 @@ import { CartContext, CartTotalContext } from "@/core/context";
 import { cartTotalQuantities } from "@/shared/utils/cartTotalQuantities";
 import { cartSubTotal } from "@/shared/utils/cartSubTotal";
 import {v4 as uuidV4} from "uuid";
+import { toast } from "react-hot-toast";
 
 interface IProps {
   products: IProducts[] | null;
@@ -43,6 +44,7 @@ function ProductsListing({ products }: IProps) {
         copyCart[existingIndex].price * copyCart[existingIndex].quantity;
       setCartItems(copyCart);
     }
+    toast.success("Added to cart");
   };
 
   useEffect(() => {
