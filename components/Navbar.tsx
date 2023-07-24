@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Popover, ArrowContainer } from "react-tiny-popover";
+import { toast } from "react-hot-toast";
 
 function Navbar() {
   const { total } = useContext(CartTotalContext);
@@ -117,6 +118,7 @@ function Navbar() {
                     onClick={() => {
                       setAuthData(null);
                       localStorage.removeItem("authData");
+                      toast.success("Logout successful");
                     }}
                     className="btn-add-remove mt-3"
                   >
